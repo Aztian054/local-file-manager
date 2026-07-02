@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Search, Filter, X } from "lucide-react";
+import { Search, Filter, X, LayoutGrid, LayoutList } from "lucide-react";
 import { FileUploadArea } from "@/components/FileUploadArea";
 import { FileTable } from "@/components/FileTable";
+import { FileGridView } from "@/components/FileGridView";
 import { FileBrowser } from "@/components/FileBrowser";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -23,6 +24,7 @@ export default function Dashboard() {
     month: number;
   } | null>(null);
   const [showFilters, setShowFilters] = useState(false);
+  const [viewMode, setViewMode] = useState<"table" | "grid">("table");
 
   // Fetch files with filters
   const { data: files = [], isLoading, refetch } = trpc.files.list.useQuery({
@@ -139,6 +141,26 @@ export default function Dashboard() {
                   <Filter className="h-4 w-4" />
                   Filters
                 </Button>
+                <div className="flex gap-1 border border-gray-200 dark:border-gray-700 rounded-lg p-1">
+                  <Button
+                    variant={viewMode === "table" ? "default" : "ghost"}
+                    size="sm"
+                    onClick={() => setViewMode("table")}
+                    className="h-8 w-8 p-0"
+                    title="Table view"
+                  >
+                    <LayoutList className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant={viewMode === "grid" ? "default" : "ghost"}
+                    size="sm"
+                    onClick={() => setViewMode("grid")}
+                    className="h-8 w-8 p-0"
+                    title="Grid view"
+                  >
+                    <LayoutGrid className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
 
               {hasActiveFilters && (
@@ -161,16 +183,24 @@ export default function Dashboard() {
               )}
             </div>
 
-            {/* Files Table */}
+            {/* Files View */}
             <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 p-6">
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                 Your Files
               </h2>
-              <FileTable
-                files={files}
-                isLoading={isLoading}
-                onFileDeleted={() => refetch()}
-              />
+              {viewMode === "table" ? (
+                <FileTable
+                  files={files}
+                  isLoading={isLoading}
+                  onFileDeleted={() => refetch()}
+                />
+              ) : (
+                <FileGridView
+                  files={files}
+                  isLoading={isLoading}
+                  onFileDeleted={() => refetch()}
+                />
+              )}
             </div>
           </div>
         </div>
