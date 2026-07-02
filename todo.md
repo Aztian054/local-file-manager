@@ -16,7 +16,7 @@
 - [x] Implement file delete API
 - [x] Implement search and filter API (by name, type, category, date range)
 - [x] Add upload progress tracking support
-- [ ] Write vitest tests for backend procedures
+- [x] Write vitest tests for backend procedures
 
 ## Phase 3: Frontend - Dashboard & File Browser
 - [x] Create elegant dashboard layout with sidebar navigation
@@ -24,7 +24,7 @@
 - [ ] Implement file grid view option
 - [x] Create file browser tree view showing Category/Year/Month structure
 - [x] Implement navigation between different views
-- [ ] Create file details modal/panel showing full metadata and folder path
+- [x] Create file details modal/panel showing full metadata and folder path
 - [ ] Write vitest tests for frontend components
 
 ## Phase 4: Frontend - Upload & File Management
@@ -36,15 +36,15 @@
 - [x] Implement search functionality with real-time filtering
 - [x] Implement filter by category, type, date range
 - [x] Add toast notifications for user feedback
-- [ ] Write vitest tests for upload and file management features
+- [x] Write vitest tests for upload and file management features
 
 ## Phase 5: Styling & Polish
 - [x] Design and implement elegant color scheme and typography
 - [x] Implement smooth animations and transitions
 - [x] Ensure responsive design for desktop and tablet
-- [ ] Optimize component performance
+- [x] Optimize component performance
 - [x] Add loading states and skeletons
 - [x] Add empty states for no files
 - [x] Add error handling and error messages
-- [ ] Final visual polish and refinement
-- [ ] Create checkpoint
+- [x] Final visual polish and refinement
+- [x] Create checkpoint

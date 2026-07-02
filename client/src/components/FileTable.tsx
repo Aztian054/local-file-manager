@@ -5,6 +5,7 @@ import {
   MoreVertical,
   Loader2,
   AlertCircle,
+  Info,
 } from "lucide-react";
 import {
   Table,
@@ -32,6 +33,7 @@ import {
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
 import type { File } from "../../../drizzle/schema";
+import { FileDetailsModal } from "./FileDetailsModal";
 
 interface FileTableProps {
   files: File[];
@@ -76,6 +78,8 @@ export function FileTable({
   const [selectedFileId, setSelectedFileId] = useState<number | null>(null);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
 
   const deleteFileMutation = trpc.files.delete.useMutation();
 
@@ -193,6 +197,16 @@ export function FileTable({
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem
+                        onClick={() => {
+                          setSelectedFile(file);
+                          setShowDetailsModal(true);
+                        }}
+                        className="gap-2 cursor-pointer"
+                      >
+                        <Info className="h-4 w-4" />
+                        Details
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
                         onClick={() => handleDownload(file)}
                         className="gap-2 cursor-pointer"
                       >
@@ -217,6 +231,20 @@ export function FileTable({
           </TableBody>
         </Table>
       </div>
+
+      <FileDetailsModal
+        file={selectedFile}
+        open={showDetailsModal}
+        onOpenChange={setShowDetailsModal}
+        onDownload={() => selectedFile && handleDownload(selectedFile)}
+        onDelete={() => {
+          if (selectedFile) {
+            setSelectedFileId(selectedFile.id);
+            setShowDetailsModal(false);
+            setShowDeleteDialog(true);
+          }
+        }}
+      />
 
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
